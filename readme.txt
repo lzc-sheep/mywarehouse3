@@ -6,3 +6,4 @@ test thre
 e
 test four
 create a new branch
+conflict
