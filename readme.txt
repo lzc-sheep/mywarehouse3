@@ -6,4 +6,8 @@ test thre
 e
 test four
 create a new branch
+<<<<<<< HEAD
 conflict
+=======
+new test
+>>>>>>> featural
