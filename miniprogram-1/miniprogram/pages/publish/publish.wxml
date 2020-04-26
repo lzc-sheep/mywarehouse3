@@ -1,2 +1,56 @@
-<!--pages/publish/publish.wxml-->
-<text>pages/publish/publish.wxml</text>
+<!--miniprogram/pages/marry/marry.wxml-->
+<view class="content">
+  <form bindsubmit="formSubmit">
+    <view class="text-content">
+      <view class="start">出发点：</view>
+      <view class='text-area'>
+        <textarea  type="text" maxlength="23" placeholder="请输入出发点" placeholder-class="holder" value="{{textContent}}" bindblur='getStartposition'></textarea>
+      </view>
+
+    </view>
+    <view class="text-content2">
+      <view class="start2">终点：</view>
+      <view class='text-area2'>
+        <textarea  type="text" maxlength="23" placeholder="请输入终点" placeholder-class="holder" value="{{textContent}}" bindblur='getDestination'></textarea>
+      </view>
+    </view>
+    <view class="text-content4">
+      <view class="start4">截至时间</view>
+      <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+        <view class="text-area4">
+          {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}} {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}
+        </view>
+      </picker>
+    </view>
+    <view class="text-content5">
+      <view class="start5">人数上限：</view>
+      <view class='text-area5'>
+        <textarea  type="text" maxlength="23" placeholder="人数上限：" placeholder-class="holder" value="{{textContent}}" bindblur='getMaxmember'></textarea>
+      </view>
+    </view>
+
+
+    <view class="text-content3">
+      <view class="start3">内容：</view>
+      <view class='text-area3'>
+        <textarea name="input-content" maxlength="-1" type="text" placeholder="说点什么吧" placeholder-class="holder" value="{{textContent}}" bindblur='getTextAreaContent'></textarea>
+      </view>
+
+    </view>
+    <scroll-view class="image-group" scroll-x="true">
+      <block wx:for='{{images}}' wx:for-index='idx' wx:key='key'>
+      <view>
+        <image src='{{images[idx]}}' mode='aspectFill' bindtap="previewImg"></image>
+        <icon type='clear' bindtap='removeImg'  data-index="{{idx}}" ></icon>
+      </view>
+      </block>
+      
+    </scroll-view>
+    <view class='btn-func'>
+      <button class="btn-img" bindtap='chooseImage'>选择图片</button>
+      <button class="btn" formType='submit'  open-type="getUserInfo">发布圈圈</button>
+      <!-- <image hidden=''></image> -->
+    </view>
+  </form>
+
+</view>
