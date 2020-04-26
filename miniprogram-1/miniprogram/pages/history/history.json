@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+    "backgroundColor": "#5495e6",
+    "navigationBarTitleText": "发布历史",
+    "navigationBarBackgroundColor": "#5495e6",
+    "navigationBarTextStyle": "white"
 }
