@@ -1,2 +1,60 @@
-<!--pages/home/home.wxml-->
-<text>pages/home/home.wxml</text>
+<!--miniprogram/pages/home/home.wxml-->
+<block wx:for='{{topics}}' wx:for-index="idx" wx:key='key'>
+  <view class='container' bindtap='onItemClick' data-topicId='{{item._id}}' data-openid='{{item._openid}}'>
+    <view class='container-content'>
+      <view class='user-info'>
+        <image class='user-head' src='{{item.user.avatarUrl}}' mode='aspectFill'></image>
+        <view class='user-name-time'>
+          <view class='user-name'>{{item.user.nickName}}</view>
+          <view class='user-publish-time'>{{item.date}}</view>
+        </view>
+      </view>
+      <view class='content'>
+      <!--显示目的地-->
+          <block wx:if="{{item.destination != ''}} && {{item.images.length > 0}}">
+          <view class='destination-text'>目的地：{{item.destination}}</view>
+        </block>
+        <!--显示出发地-->
+          <block wx:if="{{item.start != ''}} && {{item.images.length > 0}}">
+          <text class='content-text'>出发地：{{item.start}}</text>
+        </block>
+        <!--显示人数-->
+          <block wx:if="{{item.maxmenmber != ''}} && {{item.images.length > 0}}">
+          <text class='content-text'>最大人数：{{item.maxmember}}</text>
+        </block>
+        <!--显示人数-->
+          <block wx:if="{{item.maxmenmber != ''}} && {{item.images.length > 0}}">
+          <text class='content-text'>已有人数：{{item.numbers}}</text>
+        </block>
+        <!--显示截止日期-->
+          <block wx:if="{{item.deadline != ''}} && {{item.images.length > 0}}">
+          <text class='content-text'>截止日期：{{item.deadline}}</text>
+        </block>
+        <!-- 显示文本 -->
+        <block wx:if="{{item.content != ''}} && {{item.images.length > 0}}">
+          <text class='content-text'>备注：{{item.content}}</text>
+          <scroll-view class='content-scroll' scroll-x='true'>
+            <block wx:for="{{item.images}}" wx:key='key'>
+              <image class='content-img' src='{{item}}' mode='aspectFill'></image>
+            </block>
+          </scroll-view>
+        </block>
+        <!-- 显示图片 -->
+        <block wx:elif="{{item.images.length > 0}}">
+          <scroll-view class='content-scroll' scroll-x='true'>
+            <block wx:for="{{item.images}}" wx:key='key'>
+              <image class='content-img' src='{{item}}' mode='aspectFill'></image>
+            </block>
+          </scroll-view>
+
+        </block>
+        <!-- 显示文本 -->
+        <block wx:else>
+          <text class='content-text'>{{item.content}}</text>
+        </block>
+      </view>
+    </view>
+
+    <view class='container-line'></view>
+  </view>
+</block>
