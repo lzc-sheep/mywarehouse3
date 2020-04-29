@@ -1,4 +1,10 @@
 var that
+var myDate = new Date();
+var nowyear = myDate.getFullYear()-2020;
+var nowmont = myDate.getMonth();
+var nowdate = myDate.getDate()-1; 
+var nowhour = myDate.getHours();
+var nowminute = myDate.getMinutes();
 const app = getApp()
 Page({
 
@@ -30,7 +36,34 @@ Page({
   getData: function() {
     const db = wx.cloud.database();
 
-    db.collection('topic')
+    const _ = db.command
+    db.collection('topic').where(_.or([
+      {
+        'deadline1.0':_.gt(nowyear)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':_.gt(nowmont)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':_.gt(nowdate)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':nowdate,
+        'deadline1.3':_.gt(nowhour)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':nowdate,
+        'deadline1.3':nowhour,
+        'deadline1.4':_.gt(nowminute)
+      }
+    ]))
       .orderBy('date', 'desc')
       .get({
         success: function(res) {
