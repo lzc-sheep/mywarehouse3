@@ -1,4 +1,3 @@
-var that
 const app = getApp()
 Page({
 
@@ -14,32 +13,79 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    that = this
+    let that=this
     wx.cloud.init({
       env: app.globalData.evn
     })
   },
 
   onShow: function() {
-    that.getData();
+   // let that = this
+    this.getData();
   },
   /**
    * 获取列表数据
    * 
    */
   getData: function() {
+    let that=this
+    let myDate = new Date();
+    let nowyear = myDate.getFullYear()-2020;
+    let nowmont = myDate.getMonth();
+    let nowdate = myDate.getDate()-1; 
+    let nowhour = myDate.getHours();
+    let nowminute = myDate.getMinutes();
+    console.log(nowhour);
+    console.log(nowminute);
     const db = wx.cloud.database();
 
-    db.collection('topic')
+    const _ = db.command
+    db.collection('topic').where(_.or([
+      {
+        'deadline1.0':_.gt(nowyear)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':_.gt(nowmont)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':_.gt(nowdate)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':nowdate,
+        'deadline1.3':_.gt(nowhour)
+      },
+      {
+        'deadline1.0':nowyear,
+        'deadline1.1':nowmont,
+        'deadline1.2':nowdate,
+        'deadline1.3':nowhour,
+        'deadline1.4':_.gt(nowminute)
+      }
+    ]))
       .orderBy('date', 'desc')
       .get({
         success: function(res) {
           // res.data 是包含以上定义的两条记录的数组
           console.log("数据：" + res.data)
           that.data.topics = res.data;
+          var topic=wx.getStorageSync('topics');
+          topic=that.data.topics;
+          wx.setStorageSync('topics', topic)
+
           that.setData({
             topics: that.data.topics,
           })
+          console.log(that.data.topics.length)
+          var num=0;
+          for(num=0;num<that.data.topics.length;++num)
+          {
+            console.log(that.data.topics[num])
+          }
           wx.hideNavigationBarLoading(); //隐藏加载
           wx.stopPullDownRefresh();
 
@@ -70,7 +116,11 @@ Page({
    */
   onPullDownRefresh: function() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    that.getData();
+    this.getData();
+    //var topics=wx.getStorageSync('topics')
+    //this.setData({
+    //  topics: topics
+   // })
   },
 
   /**

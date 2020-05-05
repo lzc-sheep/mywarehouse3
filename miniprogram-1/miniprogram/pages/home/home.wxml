@@ -28,7 +28,7 @@
         </block>
         <!--显示截止日期-->
           <block wx:if="{{item.deadline != ''}} && {{item.images.length > 0}}">
-          <text class='content-text'>截止日期：{{item.deadline}}</text>
+          <text class='content-text'>截止日期：{{item.deadline2[0][item.deadline1[0]]}}年{{item.deadline2[1][item.deadline1[1]]}}月{{item.deadline2[2][item.deadline1[2]]}}日{{item.deadline2[3][item.deadline1[3]]}}:{{item.deadline2[4][item.deadline1[4]]}}</text>
         </block>
         <!-- 显示文本 -->
         <block wx:if="{{item.content != ''}} && {{item.images.length > 0}}">
