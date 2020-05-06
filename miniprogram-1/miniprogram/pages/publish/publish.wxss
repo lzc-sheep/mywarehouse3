@@ -143,7 +143,7 @@
 }
 
 .btn-img {
-  width: 220px;
+  width: 110px;
   height: 45px;
   line-height: 45px;
   margin-top: 20px;
@@ -151,16 +151,18 @@
   background-color: rgb(113, 98, 250);
   color: #fff;
   border-radius: 50px;
+  margin-left:250px;
 }
 
 .btn {
-  width: 220px;
+  width: 110px;
   height: 45px;
   line-height: 45px;
   background-color: #d50310;
   color: #fff;
   border-radius: 50px;
   margin-bottom: 20px;
+  margin-left:250px;
 }
 
 .holder{
