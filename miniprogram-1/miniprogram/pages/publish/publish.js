@@ -15,6 +15,7 @@ Page({
     maxmember:'',
 	numbers:1,
     images: [],
+    localimages:[],
     user: {},
     isLike: false,
     date: '2020-05-01',
@@ -83,14 +84,14 @@ Page({
    * 选择图片
    */
   chooseImage: function(event) {
+    let that=this;
     wx.chooseImage({
       count: 6,
       success: function(res) {
         // 设置图片
         that.setData({
-          images: res.tempFilePaths,
+          localimages: res.tempFilePaths,
         })
-        that.data.images = []
         console.log(res.tempFilePaths)
         for (var i in res.tempFilePaths) {
           // 将图片上传至云存储空间
@@ -100,7 +101,11 @@ Page({
             filePath: res.tempFilePaths[i],
             // 成功回调
             success: res => {
-              that.data.images.push(res.fileID)
+              that.data.images.push(res.fileID);
+              console.log(that.data.images.length);
+              for(var j=0;j < that.data.images.length;j++){
+                console.log(that.data.images[j]);
+              }
             },
           })
         }
@@ -171,6 +176,7 @@ Page({
         // 清空数据
         that.data.content = "";
         that.data.images = [];
+        that.data.localimages = [];
         that.data.start="";
         that.data.destination="";
         that.data.deadline="";
