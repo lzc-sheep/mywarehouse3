@@ -13,7 +13,7 @@ Page({
     destination:'',
     deadline:'',
     maxmember:'',
-	numbers:1,
+	  numbers:1,
     images: [],
     localimages:[],
     user: {},
@@ -23,7 +23,8 @@ Page({
     dateTimeArray1: null,
     dateTime1: null,
     startYear: 2020,
-    endYear: 2050
+    endYear: 2050,
+    _id:''
   },
   /**
     * 生命周期函数--监听页面加载
@@ -89,10 +90,16 @@ Page({
       count: 6,
       success: function(res) {
         // 设置图片
+        let localimages=that.data.localimages;
+        localimages.push(res.tempFilePaths)
         that.setData({
-          localimages: res.tempFilePaths,
+          localimages
         })
-        console.log(res.tempFilePaths)
+        console.log("本地长度"+that.data.localimages.length);
+        for(var j=0;j < that.data.localimages.length;j++){
+          console.log(that.data.localimages[j]);
+        }
+        /*console.log(res.tempFilePaths)*/
         for (var i in res.tempFilePaths) {
           // 将图片上传至云存储空间
           wx.cloud.uploadFile({
@@ -102,10 +109,10 @@ Page({
             // 成功回调
             success: res => {
               that.data.images.push(res.fileID);
-              console.log(that.data.images.length);
+              /*console.log(that.data.images.length);
               for(var j=0;j < that.data.images.length;j++){
                 console.log(that.data.images[j]);
-              }
+              }*/
             },
           })
         }
@@ -154,7 +161,7 @@ Page({
    * 保存到发布集合中
    */
   saveDataToServer: function(event) {
-    
+    let that = this;
     db.collection('topic').add({
       // data 字段表示需新增的 JSON 数据
       data: {
@@ -163,7 +170,7 @@ Page({
         images: that.data.images,
         user: that.data.user,
         isLike: that.data.isLike,
-		numbers:that.data.numbers,
+		    numbers:that.data.numbers,
         start: that.data.start ,
         destination: that.data.destination,
         deadline1: that.data.dateTime1,
@@ -172,7 +179,16 @@ Page({
       },
       success: function(res) {
         // 保存到发布历史
+        let tmp=res._id  //保存topic记录的id
         that.saveToHistoryServer();
+        that.setData({
+          textContent: '',
+          images: [],
+          localimages: [],
+          _id: tmp
+        })
+        //添加到记录发布参与的集合中
+        that.saveToJoinin();
         // 清空数据
         that.data.content = "";
         that.data.images = [];
@@ -181,11 +197,6 @@ Page({
         that.data.destination="";
         that.data.deadline="";
         that.data.maxmember="";
-
-        that.setData({
-          textContent: '',
-          images: [],
-        })
 
         that.showTipAndSwitchTab();
 
@@ -208,11 +219,13 @@ Page({
    */
   removeImg: function(event) {
     var position = event.currentTarget.dataset.index;
-    this.data.images.splice(position, 1);
+    console.log('diandaol');
+    this.data.localimages.splice(position, 1);
     // 渲染图片
     this.setData({
-      images: this.data.images,
+      localimages: this.data.localimages,
     })
+    this.data.images.splice(position, 1);
   },
   // 预览图片
   previewImg: function(e) {
@@ -220,15 +233,29 @@ Page({
     var index = e.currentTarget.dataset.index;
     wx.previewImage({
       //当前显示图片
-      current: this.data.images[index],
+      current: this.data.localimages[index],
       //所有图片
-      urls: this.data.images
+      urls: this.data.localimages
     })
   },
 
   /**
    * 添加到发布集合中
    */
+  saveToJoinin: function(event){
+    db.collection('joinin').add({
+      // data 字段表示需新增的 JSON 数据
+      data: {
+        user:that.data.user,
+        join_id: that.data._id   //保存对应topic记录的id
+      },
+      success: function(res) {
+        // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+        console.log(res)
+      },
+      fail: console.error
+    })
+  },
   saveToHistoryServer: function(event) {
     db.collection('history').add({
       // data 字段表示需新增的 JSON 数据

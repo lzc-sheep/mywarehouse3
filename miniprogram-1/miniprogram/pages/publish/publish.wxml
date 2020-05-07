@@ -37,12 +37,12 @@
       </view>
 
     </view>
-    <scroll-view class="image-group" scroll-y="true">
+    <scroll-view class="image-group" scroll-y >
       <block wx:for='{{localimages}}' wx:for-index='idx' wx:key='key'>
-      <view>
-        <image src='{{localimages[idx]}}' mode='aspectFill' bindtap="previewImg"></image>
-        <icon type='clear' bindtap='removeImg'  data-index="{{idx}}" ></icon>
-      </view>
+        <view id='idx'>
+          <image src='{{localimages[idx]}}' mode='aspectFill' bindtap="previewImg"></image>
+          <icon type='clear' bindtap='removeImg'  data-index="{{idx}}" ></icon>
+        </view>
       </block>
       
     </scroll-view>
