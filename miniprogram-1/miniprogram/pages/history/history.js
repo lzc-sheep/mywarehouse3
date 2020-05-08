@@ -20,6 +20,7 @@ Page({
   onLoad: function (options) {
     that = this
     that.getData(that.data.page);
+
   },
   /**
    * 获取列表数据
@@ -27,6 +28,7 @@ Page({
    */
   getData: function (page) {
     // 获取总数
+    var id;
     db.collection('topic').count({
       success: function (res) {
         that.data.totalCount = res.total;
@@ -34,27 +36,40 @@ Page({
     })
     // 获取前五条
     try {
-      db.collection('topic')
-        .where({
-          _openid: app.globalData.openid, // 填入当前用户 openid
-        })
-        .limit(that.data.pageSize) // 限制返回数量为 5 条
-        .orderBy('date', 'desc')
-        .get({
-          success: function (res) {
-            that.data.topics = res.data;
-            that.setData({
-              topics: that.data.topics,
-            })
-            wx.hideNavigationBarLoading();//隐藏加载
-            wx.stopPullDownRefresh();
+      wx.cloud.callFunction({
+        name: 'login',
+        success: res => {
+          console.log('callFunction test result: ', res)
+          console.log('haha:', res.result.openid);
+          console.log(id);
+          id = res.result.openid;
+          db.collection('topic')
+            .where({
+               _openid:id , // 填入当前用户 openid
 
-          },
-          fail: function (event) {
-            wx.hideNavigationBarLoading();//隐藏加载
-            wx.stopPullDownRefresh();
-          }
-        })
+
+            })
+            .limit(that.data.pageSize) // 限制返回数量为 5 条
+            .orderBy('date', 'desc')
+            .get({
+              success: function (res) {
+                that.data.topics = res.data;
+                that.setData({
+                  topics: that.data.topics,
+                })
+                wx.hideNavigationBarLoading();//隐藏加载
+                wx.stopPullDownRefresh();
+
+              },
+              fail: function (event) {
+                wx.hideNavigationBarLoading();//隐藏加载
+                wx.stopPullDownRefresh();
+              }
+            })
+        }
+      })//获得openid
+      
+      
     } catch (e) {
       wx.hideNavigationBarLoading();//隐藏加载
       wx.stopPullDownRefresh();
