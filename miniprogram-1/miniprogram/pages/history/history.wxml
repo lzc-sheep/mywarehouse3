@@ -34,7 +34,9 @@
         </block>
       </view>
     </view>
-
-    <view class='container-line'></view>
   </view>
+  <!--显示删除按钮-->
+  <button class='btn-class'  bindtap='onDeleteClick' data-topicId='{{item._id}}'>删除这个活动</button>
+  <!--下界线-->
+  <view class='container-line'></view>
 </block>

@@ -86,7 +86,31 @@ Page({
       url: "../homeDetail/homeDetail?id=" + id
     })
   },
-
+  /**
+   * 删除活动
+   */
+  onDeleteClick: function (event) {
+    var id = event.currentTarget.dataset.topicid;
+    console.log(id);
+    wx.showModal({
+      title: '确认',
+      content: '确定要删除这条活动吗？',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          db.collection('topic').doc(id).remove({
+            success: res => {
+              wx.showToast({
+                title: '删除成功',
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */

@@ -80,4 +80,15 @@
   background-color: #999;
 }
 
+.btn-class {
+  width: 165px;
+  height: 45px;
+  line-height: 45px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #deb887;
+  color: #fff;
+  border-radius: 50px;
+}
+
 
