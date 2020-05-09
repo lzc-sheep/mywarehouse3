@@ -109,7 +109,7 @@
 
 .btn-class{
   margin: 40rpx;
-  background-color: burlywood;
+  background-color: #deb887;
   color: white;
   border-radius: 98rpx;
   display: flex;
