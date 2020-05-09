@@ -9,7 +9,7 @@ Page({
     topic: {},
     id: '',
     openid: '',
-    isLike: false,
+    isLike: '',
   },
 
   /**
@@ -21,6 +21,9 @@ Page({
     that.data.id = options.id;
     that.data.openid = options.openid;
     // 获取话题信息
+    console.log(that.data.id);
+    console.log(that.data.openid)
+    /*db.collection('collect').doc(that.data.id)*/
     db.collection('topic').doc(that.data.id).get({
       success: function(res) {
         that.topic = res.data;
@@ -76,6 +79,7 @@ Page({
    * 刷新点赞icon
    */
   refreshLikeIcon(isLike) {
+    console.log('test');
     that.data.isLike = isLike
     that.setData({
       isLike: isLike,
@@ -97,45 +101,83 @@ Page({
    * 喜欢点击
    */
   onLikeClick: function(event) {
+    console.log(that.data.openid);
+    wx.cloud.callFunction({
+      name: 'login',
+      success: res => {
+        console.log('callFunction test result: ', res)
+        console.log('haha:', res.result.openid);
+        that.data.openid = res.result.openid;
+        console.log(that);
+        if (that.data.isLike) {
+          // 需要判断是否存在
+          that.removeFromCollectServer();
+          that.deleteToTopic();
+        } else {
+          if (that.data.topic.maxmember == that.data.topic.numbers) {  //满人的情况
+            wx.showToast({
+              title: '已经满人了哦！',
+            })
+          }
+          if (that.data.openid == that.data.topic._openid) {
+            //发帖人不能重复参加情况
+            wx.showToast({
+              title: '您是发布人哦！',
+            })
+          }
+          else {
+            console.log('1111')
+            console.log(that);
+            that.saveToCollectServer();
+            that.addToTopic();
+          }
+        }
+       
+        }
+        })
     console.log(that.data.isLike);
-    if (that.data.isLike) {
-      // 需要判断是否存在
-      that.removeFromCollectServer();
-      that.deleteToTopic();
-    } else {
-      if(that.data.topic.maxmember==that.data.topic.numbers){  //满人的情况
-        wx.showToast({
-          title: '已经满人了哦！',
-        })
-      }
-      if(that.data.openid==that.data.topic._openid){  
-        //发帖人不能重复参加情况
-        wx.showToast({
-          title: '您是发布人哦！',
-        })
-      }
-      else{
-      that.saveToCollectServer();
-      that.addToTopic();
-      }
-    }
+    
   },
   /**
    * 添加到收藏集合中
    */
-  saveToCollectServer: function(event) {
+  saveToCollectServer: function(event) {console.log("?");
+    wx.cloud.callFunction({
+      name: 'runDB',
+      data: {
+        type: "insert", //指定操作是insert  
+        db: "collect", //指定操作的数据表
+        data: { //指定insert的数据
+          _openid: that.data.topic._openid,
+          
+          _id: that.data.id,
+          
+        }
+      },
+      success: res => {
+        console.log('[云函数] [insertDB] 已增加信息', res);
+    
+          that.refreshLikeIcon(true)
+          
+       
 
-    db.collection('collect').add({
+      },
+      fail: err => {
+        console.error('[云函数] [insertDB] 增加失败', err)
+      }
+    })
+
+   /* db.collection('collect').add({
       // data 字段表示需新增的 JSON 数据
       data: {
-        _id: that.data.id,
+        _id: that.data.topic._openid,
         date: new Date(),
       },
       success: function(res) {
         that.refreshLikeIcon(true)
         console.log(res)
       },
-    })
+    })*/
   },
   addToTopic:function(enent){
     db.collection('topic').doc(that.data.id).update({
