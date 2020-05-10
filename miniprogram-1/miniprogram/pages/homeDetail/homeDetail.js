@@ -1,4 +1,5 @@
 var that
+const app = getApp()
 const db = wx.cloud.database();
 Page({
 
@@ -119,7 +120,7 @@ Page({
               title: '已经满人了哦！',
             })
           }
-          if (that.data.openid == that.data.topic._openid) {
+          if (app.globalData.openid== that.data.topic._openid) {
             //发帖人不能重复参加情况
             wx.showToast({
               title: '您是发布人哦！',
@@ -180,15 +181,22 @@ Page({
     })*/
   },
   addToTopic:function(enent){
-    db.collection('topic').doc(that.data.id).update({
-      //更新参与人
+    wx.cloud.callFunction({
+      name:'runDB',
       data:{
-        numbers:that.data.topic.numbers+1,
+        type:"update",
+        db: "topic",
+        a:1,
+        id:that.data.id,
       },
-      success:function(res){
-        console.log(res)
-    },
-  })
+      success: res => {
+        console.log('[云函数] [updateDB] 已更新信息', res);
+      },
+      fail: err => {
+        console.error('[云函数] [updateDB] 更新失败', err)
+      }
+    })
+  
 },
   /**
    * 从收藏集合中移除
@@ -200,10 +208,20 @@ Page({
     });
   },
   deleteToTopic:function(event){
-    db.collection('topic').doc(that.data.id).update({
+    wx.cloud.callFunction({
+      name:'runDB',
       data:{
-        numbers:that.data.topic.numbers-1,
+        type:"update",
+        db: "topic",
+        a:-1,
+        id:that.data.id,
       },
+      success: res => {
+        console.log('[云函数] [updateDB] 已更新信息', res);
+      },
+      fail: err => {
+        console.error('[云函数] [updateDB] 更新失败', err)
+      }
     })
   },
   /**
