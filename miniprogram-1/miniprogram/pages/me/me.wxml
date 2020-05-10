@@ -40,19 +40,9 @@
     </view>
     <view class='right'>></view>
   </view>
-  <!-- 我的参与 -->
-<view class='line'></view>
-  <view class='item' bindtap='clickParticipation'>
-    <view class='icon'>
-      <image src='../../images/me/invitation.png' style="width:22px;height:21px;"></image>
-    </view>
-    <view class='itemName'>
-      <view>我的参与</view>
-    </view>
-    <view class='right'>></view>
-  </view>
-  <view class='hr'></view>
+
   <!-- 产品意见 -->
+  <view class='line'></view>
   <view class='item'  bindtap='onAdvanceClick'>
     <view class='icon'>
       <image src='../../images/me/advice.png' style="width:22px;height:21px;"></image>

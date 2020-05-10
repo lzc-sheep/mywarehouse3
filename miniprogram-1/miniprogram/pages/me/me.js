@@ -52,13 +52,6 @@ Page({
     })
   },
 
-
-  clickParticipation: function(event) {
-    wx.navigateTo({
-      url: '../participation/participation',
-    })
-  },
-
   /**
    * 用户点击右上角分享
    */
