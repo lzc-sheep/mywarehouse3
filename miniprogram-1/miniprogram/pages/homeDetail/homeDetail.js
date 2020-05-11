@@ -1,7 +1,6 @@
 var that
 const app = getApp()
 const db = wx.cloud.database();
-const app = getApp()
 Page({
 
   /**
@@ -219,26 +218,26 @@ Page({
       }
     })
   
-},
-addUserInfo: function(event){
-  wx.cloud.callFunction({
-    name: 'join_person',
-    data: {  
-      _id: that.data.id,
-      _openid:that.data.openid,
-      joinin: that.data.joinin ,
-      userimage: app.globalData.user.avatarUrl
-    },
-    success: res => {
-      console.log("增加人员成功")
-    },
-    fail: err => {
-      console.log("增加人员失败")
-      console.log(err);
-    }
-  })
+  },
+  addUserInfo: function(event){
+    wx.cloud.callFunction({
+     name: 'join_person',
+      data: {  
+        _id: that.data.id,
+        _openid:that.data.openid,
+        joinin: that.data.joinin ,
+        userimage: app.globalData.user.avatarUrl
+      },
+      success: res => {
+        console.log("增加人员成功")
+      },
+      fail: err => {
+        console.log("增加人员失败")
+        console.log(err);
+      }
+    })
 
-},
+  },
   /**
    * 从收藏集合中移除
    */
