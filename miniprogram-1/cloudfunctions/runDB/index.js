@@ -33,7 +33,11 @@ exports.main = async (event, context) => {
     }
 
     if (event.type == "delete") {
-      return await targetDB.doc(event.indexKey).remove()
+      return await targetDB.where({
+        _openid: event._openid,
+        _id: event._id,
+        adder: event.adder,
+      }).remove()
     }
 
     if (event.type == "get") {
