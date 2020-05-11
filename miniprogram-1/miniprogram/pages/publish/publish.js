@@ -1,6 +1,7 @@
 var dateTimePicker = require('../../util/dateTimePicker.js');
 var that
 const db = wx.cloud.database();
+const app= getApp()
 Page({
 
   /**
@@ -247,7 +248,8 @@ Page({
       // data 字段表示需新增的 JSON 数据
       data: {
         user:that.data.user,
-        join_id: that.data._id   //保存对应topic记录的id
+        join_id: that.data._id ,  //保存对应topic记录的id
+        join_person: [],
       },
       success: function(res) {
         // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
@@ -293,6 +295,7 @@ Page({
             success: function(res) {
 
               that.data.user = res.userInfo;
+              app.globalData.user=res.userInfo;
               console.log(that.data.user)
             }
           })

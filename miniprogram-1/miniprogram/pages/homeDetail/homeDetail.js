@@ -1,5 +1,6 @@
 var that
 const db = wx.cloud.database();
+const app = getApp()
 Page({
 
   /**
@@ -10,6 +11,7 @@ Page({
     id: '',
     openid: '',
     isLike: '',
+    joinin: ''
   },
 
   /**
@@ -51,6 +53,23 @@ Page({
         fail: console.error
       })
 
+      db.collection('joinin')
+      .where({
+        join_id: that.data.id
+      })
+      .get({
+        success: function(res) {
+          console.log(that.data.id)
+          console.log("标记");
+          console.log(res.data[0]._id);
+          console.log("标记");
+          that.joinin=res.data[0]._id
+          that.setData({
+            joinin: that.joinin
+          })
+        },
+        fail: console.error
+      })
   },
 
   onShow: function() {
@@ -113,6 +132,8 @@ Page({
           // 需要判断是否存在
           that.removeFromCollectServer();
           that.deleteToTopic();
+          that.refreshLikeIcon(false)
+
         } else {
           if (that.data.topic.maxmember == that.data.topic.numbers) {  //满人的情况
             wx.showToast({
@@ -130,6 +151,7 @@ Page({
             console.log(that);
             that.saveToCollectServer();
             that.addToTopic();
+            that.addUserInfo();
           }
         }
        
@@ -189,6 +211,25 @@ Page({
         console.log(res)
     },
   })
+},
+addUserInfo: function(event){
+  wx.cloud.callFunction({
+    name: 'join_person',
+    data: {  
+      _id: that.data.id,
+      _openid:that.data.openid,
+      joinin: that.data.joinin ,
+      userimage: app.globalData.user.avatarUrl
+    },
+    success: res => {
+      console.log("增加人员成功")
+    },
+    fail: err => {
+      console.log("增加人员失败")
+      console.log(err);
+    }
+  })
+
 },
   /**
    * 从收藏集合中移除
