@@ -1,7 +1,6 @@
 var that
 const app = getApp()
 const db = wx.cloud.database();
-const app = getApp()
 Page({
 
   /**
@@ -19,7 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    
     that = this;
     that.data.id = options.id;
     that.data.openid = options.openid;
@@ -35,12 +34,19 @@ Page({
         })
       }
     })
-
+    wx.cloud.callFunction({
+      name: 'login',
+      success: res => {
+        console.log('callFunction test result: ', res)
+        console.log('haha:', res.result.OPENID);
+        that.data.openid = res.result.OPENID;
     // 获取收藏情况
     db.collection('collect')
       .where({
-        _openid: that.data.openid,
-        _id: that.data.id
+        _openid:that.data.topic._openid,//不必要
+        _id: that.data.id,
+        adder:that.data.openid,
+      
 
       })
       .get({
@@ -53,8 +59,10 @@ Page({
         },
         fail: console.error
       })
+      }
+      })
 
-      db.collection('joinin')
+      /*db.collection('joinin')
       .where({
         join_id: that.data.id
       })
@@ -70,7 +78,7 @@ Page({
           })
         },
         fail: console.error
-      })
+      })*/
   },
 
   onShow: function() {
@@ -126,8 +134,8 @@ Page({
       name: 'login',
       success: res => {
         console.log('callFunction test result: ', res)
-        console.log('haha:', res.result.openid);
-        that.data.openid = res.result.openid;
+        console.log('haha:', res.result.OPENID);
+        that.data.openid = res.result.OPENID;
         console.log(that);
         if (that.data.isLike) {
           // 需要判断是否存在
@@ -165,6 +173,7 @@ Page({
    * 添加到收藏集合中
    */
   saveToCollectServer: function(event) {console.log("?");
+  console.log(that.data.openid);
     wx.cloud.callFunction({
       name: 'runDB',
       data: {
@@ -172,8 +181,9 @@ Page({
         db: "collect", //指定操作的数据表
         data: { //指定insert的数据
           _openid: that.data.topic._openid,
-          
+          adder:that.data.openid,
           _id: that.data.id,
+          
           
         }
       },
@@ -219,34 +229,48 @@ Page({
       }
     })
   
-},
-addUserInfo: function(event){
-  wx.cloud.callFunction({
-    name: 'join_person',
-    data: {  
-      _id: that.data.id,
-      _openid:that.data.openid,
-      joinin: that.data.joinin ,
-      userimage: app.globalData.user.avatarUrl
-    },
-    success: res => {
-      console.log("增加人员成功")
-    },
-    fail: err => {
-      console.log("增加人员失败")
-      console.log(err);
-    }
-  })
+  },
+  addUserInfo: function(event){
+    wx.cloud.callFunction({
+     name: 'join_person',
+      data: {  
+        _id: that.data.id,
+        _openid:that.data.openid,
+        joinin: that.data.joinin ,
+        userimage: app.globalData.user.avatarUrl
+      },
+      success: res => {
+        console.log("增加人员成功")
+      },
+      fail: err => {
+        console.log("增加人员失败")
+        console.log(err);
+      }
+    })
 
-},
+  },
   /**
    * 从收藏集合中移除
    */
   removeFromCollectServer: function(event) {
-    db.collection('collect').doc(that.data.id).remove({
+    /*db.collection('collect').doc(that.data.id).remove({
 
       success: that.refreshLikeIcon(false),
-    });
+    });*///该函数没有足够的权限需要使用云函数
+    wx.cloud.callFunction({
+      name: 'runDB',
+      data: {
+        type: "delete",
+        db: "collect",
+        _openid: that.data.topic._openid,//不必要
+        _id: that.data.id,
+        adder: that.data.openid,
+      },
+      success: res => {
+        console.log('[云函数] [updateDB] 已删除', res);
+      }
+    })
+
   },
   deleteToTopic:function(event){
     wx.cloud.callFunction({
