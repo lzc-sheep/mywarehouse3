@@ -11,14 +11,16 @@ Page({
     id: '',
     openid: '',
     isLike: '',
-    joinin: ''
+    joinin: '',
+    join_images: [],
+    join_nickname: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    
+
     that = this;
     that.data.id = options.id;
     that.data.openid = options.openid;
@@ -34,19 +36,12 @@ Page({
         })
       }
     })
-    wx.cloud.callFunction({
-      name: 'login',
-      success: res => {
-        console.log('callFunction test result: ', res)
-        console.log('haha:', res.result.OPENID);
-        that.data.openid = res.result.OPENID;
+
     // 获取收藏情况
     db.collection('collect')
       .where({
-        _openid:that.data.topic._openid,//不必要
-        _id: that.data.id,
-        adder:that.data.openid,
-      
+        _openid: that.data.openid,
+        _id: that.data.id
 
       })
       .get({
@@ -59,10 +54,62 @@ Page({
         },
         fail: console.error
       })
+
+      db.collection('joinin')
+      .where({
+        join_id: that.data.id
+      })
+      .get({
+        success: function(res) {
+          console.log(that.data.id)
+          console.log("标记");
+          console.log(res.data[0]._id);
+          console.log("标记");
+          that.joinin=res.data[0]._id;
+          that.join_images=res.data[0].join_images;
+          that.join_nickname=res.data[0].join_nickname;
+          that.setData({
+            joinin: that.joinin,
+            join_images: that.join_images,
+            join_nickname: that.join_nickname
+          })
+        },
+        fail: console.error
+      })
+  },
+
+  onShow: function() {
+    // 获取回复列表
+    let that=this
+    that.getReplay()
+    db.collection('topic').doc(that.data.id).get({
+      success: function(res) {
+        that.topic = res.data;
+        that.setData({
+          topic: that.topic,
+        })
       }
+    })
+
+    // 获取收藏情况
+    db.collection('collect')
+      .where({
+        _openid: that.data.openid,
+        _id: that.data.id
+
+      })
+      .get({
+        success: function(res) {
+          if (res.data.length > 0) {
+            that.refreshLikeIcon(true)
+          } else {
+            that.refreshLikeIcon(false)
+          }
+        },
+        fail: console.error
       })
 
-      /*db.collection('joinin')
+      db.collection('joinin')
       .where({
         join_id: that.data.id
       })
@@ -78,12 +125,7 @@ Page({
           })
         },
         fail: console.error
-      })*/
-  },
-
-  onShow: function() {
-    // 获取回复列表
-    that.getReplay()
+      })
   },
 
   getReplay: function() {
@@ -134,8 +176,8 @@ Page({
       name: 'login',
       success: res => {
         console.log('callFunction test result: ', res)
-        console.log('haha:', res.result.OPENID);
-        that.data.openid = res.result.OPENID;
+        console.log('haha:', res.result.openid);
+        that.data.openid = res.result.openid;
         console.log(that);
         if (that.data.isLike) {
           // 需要判断是否存在
@@ -149,7 +191,7 @@ Page({
               title: '已经满人了哦！',
             })
           }
-          if (app.globalData.openid== that.data.topic._openid) {
+          if (that.data.openid== that.data.topic._openid) {
             //发帖人不能重复参加情况
             wx.showToast({
               title: '您是发布人哦！',
@@ -173,7 +215,6 @@ Page({
    * 添加到收藏集合中
    */
   saveToCollectServer: function(event) {console.log("?");
-  console.log(that.data.openid);
     wx.cloud.callFunction({
       name: 'runDB',
       data: {
@@ -181,9 +222,7 @@ Page({
         db: "collect", //指定操作的数据表
         data: { //指定insert的数据
           _openid: that.data.topic._openid,
-          adder:that.data.openid,
           _id: that.data.id,
-          
           
         }
       },
@@ -235,7 +274,8 @@ Page({
      name: 'join_person',
       data: {  
         _id: that.data.id,
-        _openid:that.data.openid,
+        _openid: that.data.openid,
+        nickname:app.globalData.user.nickName,
         joinin: that.data.joinin ,
         userimage: app.globalData.user.avatarUrl
       },
@@ -253,24 +293,10 @@ Page({
    * 从收藏集合中移除
    */
   removeFromCollectServer: function(event) {
-    /*db.collection('collect').doc(that.data.id).remove({
+    db.collection('collect').doc(that.data.id).remove({
 
       success: that.refreshLikeIcon(false),
-    });*///该函数没有足够的权限需要使用云函数
-    wx.cloud.callFunction({
-      name: 'runDB',
-      data: {
-        type: "delete",
-        db: "collect",
-        _openid: that.data.topic._openid,//不必要
-        _id: that.data.id,
-        adder: that.data.openid,
-      },
-      success: res => {
-        console.log('[云函数] [updateDB] 已删除', res);
-      }
-    })
-
+    });
   },
   deleteToTopic:function(event){
     wx.cloud.callFunction({

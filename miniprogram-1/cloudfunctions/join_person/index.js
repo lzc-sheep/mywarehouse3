@@ -10,10 +10,13 @@ exports.main = async (event, context) => {
    var _docid=event.joinin
    var _openid=event._openid
    var _userimage= event.userimage
+   var _nickname= event.nickname
    try {
        return await db.collection('joinin').doc(_docid).update({
          data: {
-           join_person: _.push({_openid:_userimage})
+           join_person: _.push(_openid),
+           join_images:_.push(_userimage),
+           join_nickname:_.push(_nickname)
          }
        
      })

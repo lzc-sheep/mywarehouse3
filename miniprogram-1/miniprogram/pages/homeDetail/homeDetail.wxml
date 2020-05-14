@@ -46,6 +46,17 @@
       <block wx:else>
         <text class='content-text'>{{topic.content}}</text>
       </block>
+      <view class='join-note'>以下用户已经加入拼车~</view>
+      <scroll-view class="image-group" scroll-x >
+        <block wx:for='{{join_images}}' wx:for-index='idx' wx:key='key'>
+          <view id='idx' class='showjoin'>
+            <image src='{{join_images[idx]}}' mode='aspectFill'></image>
+            <view class='user-name2'>{{join_nickname}}</view>
+          </view>
+        </block>
+      
+      </scroll-view>
+
     </view>
   </view>
   <!-- 显示回复列表 -->

@@ -265,6 +265,8 @@ Page({
         user:that.data.user,
         join_id: that.data._id ,  //保存对应topic记录的id
         join_person: [],
+        join_images: [],
+        join_nickname:[]
       },
       success: function(res) {
         // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
