@@ -1,0 +1,2 @@
+<!--miniprogram/pages/login/login.wxml-->
+<button class=".btn-login" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">微信授权登录</button>

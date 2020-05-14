@@ -3,7 +3,7 @@ var that
 const db = wx.cloud.database();
 const app= getApp()
 Page({
-
+ 
   /**
    * 页面的初始数据
    */
@@ -32,7 +32,8 @@ Page({
     */
   onLoad: function (options) {
     that = this
-    that.jugdeUserLogin();
+    that.jugdeUserLogin2()
+    console.log(app.globalData.openid)
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
     var obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
@@ -45,9 +46,17 @@ Page({
       dateTime1: obj1.dateTime
     });
   },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    that.jugdeUserLogin()
+  },
   /**
    * 获取填写的内容
    */
+  
 
   changeDateTime1(e) {
     this.setData({ dateTime1: e.detail.value });
@@ -133,29 +142,35 @@ Page({
    * 发布
    */
   formSubmit: function(e) {
-    console.log('图片：', that.data.images)
-
-    this.data.content = e.detail.value['input-content'];
-    if (this.data.canIUse) {
-      var flag=(this.data.start.trim()==0)||(this.data.destination.trim()==0)||
-      (this.data.maxmember.trim()==0);
-      if (flag) {
+    if('avatarUrl' in that.data.user){
+      console.log('图片：', that.data.images)
+      this.data.content = e.detail.value['input-content'];
+      if (this.data.canIUse) {
+        var flag=(this.data.start.trim()==0)||(this.data.destination.trim()==0)||
+        (this.data.maxmember.trim()==0);
+        if (flag) {
+          wx.showToast({
+            icon: 'none',
+            title: '还有信息未填写',
+          })
+        }else if((this.data.content.trim()==0)&&(this.data.images.length==0)){
+          wx.showToast({
+            icon: 'none',
+            title: '写点东西吧',
+          })
+          }else{
+            this.saveDataToServer();
+          }
+        
+        
+      } else {
         wx.showToast({
           icon: 'none',
-          title: '还有信息未填写',
+          title: '您的微信版本过低，请升级后重试',
         })
-      }else if((this.data.content.trim()==0)&&(this.data.images.length==0)){
-        wx.showToast({
-          icon: 'none',
-          title: '写点东西吧',
-        })
-        }else{
-          this.saveDataToServer();
-        }
-      
-      
-    } else {
-      this.jugdeUserLogin();
+      }
+    }else {
+      that.jugdeUserLogin2();
     }
   },
   /**
@@ -303,7 +318,19 @@ Page({
       }
     })
   },
- 
+  jugdeUserLogin2: function(event) {
+    // 查看是否授权
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          // 没有授权，跳转到登录页面
+          wx.navigateTo({
+            url: '../login/login',
+          })
+        }
+      }
+    })
+  },
   /**
    * 用户点击右上角分享
    */
