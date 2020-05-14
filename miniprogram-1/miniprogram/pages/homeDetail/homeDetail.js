@@ -13,7 +13,8 @@ Page({
     isLike: '',
     joinin: '',
     join_images: [],
-    join_nickname: []
+    join_nickname: [],
+    
   },
 
   /**
@@ -119,9 +120,14 @@ Page({
           console.log("标记");
           console.log(res.data[0]._id);
           console.log("标记");
-          that.joinin=res.data[0]._id
+          that.joinin=res.data[0]._id;
+          that.join_images=res.data[0].join_images;
+          that.join_nickname=res.data[0].join_nickname;
+          that.join_person=res.data[0].join_person;
           that.setData({
-            joinin: that.joinin
+            joinin: that.joinin,
+            join_images: that.join_images,
+            join_nickname: that.join_nickname,
           })
         },
         fail: console.error
@@ -183,6 +189,7 @@ Page({
           // 需要判断是否存在
           that.removeFromCollectServer();
           that.deleteToTopic();
+          that.removeFromJoin();
           that.refreshLikeIcon(false)
 
         } else {
@@ -277,7 +284,8 @@ Page({
         _openid: that.data.openid,
         nickname:app.globalData.user.nickName,
         joinin: that.data.joinin ,
-        userimage: app.globalData.user.avatarUrl
+        userimage: app.globalData.user.avatarUrl,
+        type: "add"
       },
       success: res => {
         console.log("增加人员成功")
@@ -288,6 +296,26 @@ Page({
       }
     })
 
+  },
+  removeFromJoin: function(){
+    wx.cloud.callFunction({
+      name: 'join_person',
+       data: {  
+         _id: that.data.id,
+         _openid: that.data.openid,
+         nickname:app.globalData.user.nickName,
+         joinin: that.data.joinin ,
+         userimage: app.globalData.user.avatarUrl,
+         type: "delete"
+       },
+       success: res => {
+         console.log("删除人员成功")
+       },
+       fail: err => {
+         console.log("删除人员失败")
+         console.log(err);
+       }
+     })
   },
   /**
    * 从收藏集合中移除
@@ -327,6 +355,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
+  
   onShareAppMessage: function() {
 
   }

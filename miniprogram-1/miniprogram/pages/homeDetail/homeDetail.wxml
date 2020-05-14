@@ -51,7 +51,7 @@
         <block wx:for='{{join_images}}' wx:for-index='idx' wx:key='key'>
           <view id='idx' class='showjoin'>
             <image src='{{join_images[idx]}}' mode='aspectFill'></image>
-            <view class='user-name2'>{{join_nickname}}</view>
+            <view class='user-name2'>{{join_nickname[idx]}}</view>
           </view>
         </block>
       

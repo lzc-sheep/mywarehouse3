@@ -150,10 +150,10 @@
 }
 .image-group {
   height:150rpx;
-  width:150rpx;
+  width:600rpx;
   margin-top: 3px;
 }
-.showjoin{
+.image-group view{
   display: inline-block;
   flex-direction: row;
   width: 36px;
@@ -170,9 +170,10 @@
 .join-note{
   font-size: medium;
   font-style: italic;
-
+  font-weight: bold;
 }
-.user-name2 {
+.user-name2{
+  display: inline-flex;
   font-size: 10px;
   color: #333;
   font-weight: bold;
