@@ -43,13 +43,12 @@ Page({
         name: 'login',
         success: res => {
           console.log('callFunction test result: ', res)
-          console.log('haha:', res.result.OPENID);
-          that.data.openid = res.result.OPENID;
+          console.log('haha:', res.result.openid);
+          that.data.openid = res.result.openid;
       // 获取收藏情况
-      db.collection('collect')
+        db.collection('collect')
         .where({
-          _openid:that.data.topic._openid,//不必要
-          _id: that.data.id,
+          publish_id: that.data.id,
           adder:that.data.openid,
         
   
@@ -64,8 +63,8 @@ Page({
           },
           fail: console.error
         })
-        }
-        })
+      }
+    })
 
       db.collection('joinin')
       .where({
@@ -106,8 +105,8 @@ Page({
     // 获取收藏情况
     db.collection('collect')
       .where({
-        _openid: that.data.openid,
-        _id: that.data.id
+        adder: that.data.openid,
+        publish_id: that.data.id
 
       })
       .get({
@@ -204,7 +203,7 @@ Page({
           that.refreshLikeIcon(false)
 
         } else {
-          if (that.data.topic.maxmember == that.data.topic.numbers) {  //满人的情况
+          if (parseInt(that.data.topic.maxmember) == that.data.topic.number) {  //满人的情况
             wx.showToast({
               title: '已经满人了哦！',
             })
@@ -242,7 +241,7 @@ Page({
         data: { //指定insert的数据
           _openid: that.data.topic._openid,
           adder:that.data.openid,
-          _id: that.data.id,
+          publish_id: that.data.id,
           
           
         }
@@ -279,7 +278,7 @@ Page({
         type:"update",
         db: "topic",
         a:1,
-        id:that.data.id,
+        _id:that.data.id,
       },
       success: res => {
         console.log('[云函数] [updateDB] 已更新信息', res);
@@ -361,7 +360,7 @@ Page({
         type:"update",
         db: "topic",
         a:-1,
-        id:that.data.id,
+        _id: that.data.id,
       },
       success: res => {
         console.log('[云函数] [updateDB] 已更新信息', res);

@@ -25,7 +25,9 @@ exports.main = async (event, context) => {
     }
 
     if (event.type == "update") {
-      return await targetDB.doc(event.id).update({
+      return await targetDB.where({
+        _id:event._id,
+      }).update({
         data: {
           numbers:_.inc(event.a),
         }
@@ -35,7 +37,7 @@ exports.main = async (event, context) => {
     if (event.type == "delete") {
       return await targetDB.where({
         _openid: event._openid,
-        _id: event._id,
+        publish_id: event._id,
         adder: event.adder,
       }).remove()
     }

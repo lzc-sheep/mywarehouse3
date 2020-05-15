@@ -31,7 +31,7 @@ Page({
   getData: function(page) {
     db.collection('collect')
       .where({
-        _openid: app.globalData.openid, // 填入当前用户 openid
+        adder: app.globalData.openid, // 填入当前用户 openid
       })
       .get({
         success: function(res) {
@@ -51,7 +51,7 @@ Page({
     var tempTopics = {};
     // for (var i = 0; i < that.data.collects.length; i++) {
     for (var i in that.data.collects) {
-      var topicId = that.data.collects[i]._id;
+      var topicId = that.data.collects[i].publish_id;
       db.collection('topic')
         .doc(topicId)
         .get({
