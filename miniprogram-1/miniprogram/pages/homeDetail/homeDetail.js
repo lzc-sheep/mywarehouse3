@@ -203,11 +203,6 @@ Page({
           that.refreshLikeIcon(false)
 
         } else {
-          if (parseInt(that.data.topic.maxmember) == that.data.topic.number) {  //满人的情况
-            wx.showToast({
-              title: '已经满人了哦！',
-            })
-          }
           if (that.data.openid== that.data.topic._openid) {
             //发帖人不能重复参加情况
             wx.showToast({
@@ -215,11 +210,18 @@ Page({
             })
           }
           else {
-            console.log('1111')
-            console.log(that);
-            that.saveToCollectServer();
-            that.addToTopic();
-            that.addUserInfo();
+            if (parseInt(that.data.topic.maxmember) <= that.data.topic.number) {  //满人的情况
+              wx.showToast({
+                title: '已经满人了哦！',
+              })
+            }
+            else{
+              console.log('1111')
+              console.log(that);
+              that.saveToCollectServer();
+              that.addToTopic();
+              that.addUserInfo();
+            }
           }
         }
        
