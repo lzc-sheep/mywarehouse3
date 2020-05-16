@@ -27,7 +27,7 @@ Page({
 
   },
   /**
-   * 收藏列表
+   * 我加入的活动
    */
   onCollectClick:function(event){
     wx.navigateTo({

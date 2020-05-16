@@ -17,14 +17,14 @@
 
 <!-- 底部列表 -->
 <view class='content'>
-  <!-- 收藏列表 -->
+  <!-- 加入的活动 -->
    <view class='line'></view>
   <view class='item' bindtap='onCollectClick'>
     <view class='icon'>
       <image src='../../images/me/collect.png' style="width:22px;height:21px;"></image>
     </view>
     <view class='itemName'>
-      <view>收藏列表</view>
+      <view>我加入的活动</view>
     </view>
     <view class='right'>></view>
   </view>
