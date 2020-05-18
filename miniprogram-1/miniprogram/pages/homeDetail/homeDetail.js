@@ -187,46 +187,58 @@ Page({
    * 喜欢点击
    */
   onLikeClick: function(event) {
-    console.log(that.data.openid);
+    let that=this
     wx.cloud.callFunction({
       name: 'login',
       success: res => {
         console.log('callFunction test result: ', res)
-        console.log('haha:', res.result.openid);
         that.data.openid = res.result.openid;
-        console.log(that);
-        if (that.data.isLike) {
-          // 需要判断是否存在
-          that.removeFromCollectServer();
-          that.deleteToTopic();
-          that.removeFromJoin();
-          that.refreshLikeIcon(false)
-
-        } else {
-          if (that.data.openid== that.data.topic._openid) {
-            //发帖人不能重复参加情况
-            wx.showToast({
-              title: '您是发布人哦！',
+        db.collection('topic').doc(that.data.id).get({
+          success: function(res) {
+            that.topic = res.data;
+            that.setData({
+              topic: that.topic,
             })
           }
-          else {
-            if (parseInt(that.data.topic.maxmember) <= that.data.topic.number) {  //满人的情况
+        })
+        if(app.globalData.user){
+          if (that.data.isLike) {
+            // 需要判断是否存在
+            that.removeFromCollectServer();
+            that.deleteToTopic();
+            that.removeFromJoin();
+            that.refreshLikeIcon(false)
+
+          } else {
+            if (that.data.openid== that.data.topic._openid) {
+              //发帖人不能重复参加情况
               wx.showToast({
-                title: '已经满人了哦！',
+                title: '您是发布人哦！',
               })
             }
-            else{
-              console.log('1111')
-              console.log(that);
-              that.saveToCollectServer();
-              that.addToTopic();
-              that.addUserInfo();
+            else {
+              if (parseInt(that.data.topic.maxmember) <= that.data.topic.numbers) {  //满人的情况
+                wx.showToast({
+                  title: '已经满人了哦！',
+                })
+              }
+              else{
+                console.log('1111')
+                console.log(that);
+                that.saveToCollectServer();
+                that.addToTopic();
+                that.addUserInfo();
+              }
             }
           }
-        }
        
+        }else{
+          wx.navigateTo({
+            url: '../login/login',
+          })
         }
-        })
+      }
+    })
     console.log(that.data.isLike);
     
   },
