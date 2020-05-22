@@ -6,7 +6,7 @@
         <image class='user-head' src='{{item.user.avatarUrl}}' mode='aspectFill'></image>
         <view class='user-name-time'>
           <view class='user-name'>{{item.user.nickName}}</view>
-          <view class='user-publish-time'>{{item.date}}</view>
+          <view class='user-publish-time'>{{item.nowtime2[0][item.nowtime1[0]]}}-{{item.nowtime2[1][item.nowtime1[1]]}}-{{item.nowtime2[2][item.nowtime1[2]]}} {{item.nowtime2[3][item.nowtime1[3]]}}:{{item.nowtime2[4][item.nowtime1[4]]}}</view>
         </view>
       </view>
       <view class='content'>
