@@ -23,6 +23,8 @@ Page({
     time: '12:00',
     dateTimeArray1: null,
     dateTime1: null,
+    nowTimeArray1:null,
+    nowTime1:null,
     startYear: 2020,
     endYear: 2050,
     _id:''
@@ -43,7 +45,9 @@ Page({
 
     this.setData({
       dateTimeArray1: obj1.dateTimeArray,
-      dateTime1: obj1.dateTime
+      dateTime1: obj1.dateTime,
+      nowTimeArray1:obj1.dateTimeArray,
+      nowTime1:obj1.dateTime
     });
   },
 
@@ -105,11 +109,6 @@ Page({
         that.setData({
           localimages
         })
-        console.log("本地长度"+that.data.localimages.length);
-        for(var j=0;j < that.data.localimages.length;j++){
-          console.log(that.data.localimages[j]);
-        }
-        /*console.log(res.tempFilePaths)*/
         for (var i in res.tempFilePaths) {
           // 将图片上传至云存储空间
           wx.cloud.uploadFile({
@@ -119,10 +118,6 @@ Page({
             // 成功回调
             success: res => {
               that.data.images.push(res.fileID);
-              /*console.log(that.data.images.length);
-              for(var j=0;j < that.data.images.length;j++){
-                console.log(that.data.images[j]);
-              }*/
             },
           })
         }
@@ -191,6 +186,8 @@ Page({
         destination: that.data.destination,
         deadline1: that.data.dateTime1,
         deadline2:that.data.dateTimeArray1,
+        nowtime1:that.data.nowTime1,
+        nowtime2:that.data.nowTimeArray1,
         maxmember: that.data.maxmember
       },
       success: function(res) {
