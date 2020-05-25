@@ -12,7 +12,7 @@
       <view class='content'>
       <!--显示目的地-->
           <block wx:if="{{item.destination != ''}} && {{item.images.length > 0}}">
-          <view class='destination-text'>目的地：{{item.destination}}</view>
+          <view class='content-text'>目的地：{{item.destination}}</view>
         </block>
         <!--显示出发地-->
           <block wx:if="{{item.start != ''}} && {{item.images.length > 0}}">

@@ -46,6 +46,7 @@
   font-size: 18px;
   color: #333;
   font-weight: bold;
+  font-family: 'Bitstream Vera Serif Bold';
 }
 
 .user-publish-time {
@@ -70,6 +71,7 @@
   font-size: 18px;
   color: #666;
   margin-left: 10px;
+  font-family: 'content';
 }
 
 .content-img {
@@ -89,6 +91,7 @@
   background-color: #deb887;
   color: #fff;
   border-radius: 50px;
+  font-family: 'content';
 }
 
 

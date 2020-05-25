@@ -87,6 +87,8 @@ Page({
         },
         fail: console.error
       })
+      getApp().loadFontFace()
+  
   },
 
   onShow: function() {

@@ -17,6 +17,7 @@ Page({
     wx.cloud.init({
       env: app.globalData.evn
     })
+    getApp().LoadFontFace()
   },
 
   onShow: function() {

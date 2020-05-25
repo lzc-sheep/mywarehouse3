@@ -20,6 +20,7 @@ Page({
   onLoad: function (options) {
     that = this
     that.getData(that.data.page);
+    getApp().loadFontFace()
 
   },
   /**

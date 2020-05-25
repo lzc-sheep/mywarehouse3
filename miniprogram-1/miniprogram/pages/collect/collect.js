@@ -19,6 +19,7 @@ Page({
    */
   onLoad: function(options) {
     that = this
+    getApp().loadFontFace()
   },
 
   onShow: function() {

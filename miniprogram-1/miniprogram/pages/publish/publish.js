@@ -49,6 +49,7 @@ Page({
       nowTimeArray1:obj1.dateTimeArray,
       nowTime1:obj1.dateTime
     });
+    getApp().loadFontFace()
   },
 
   /**
@@ -310,7 +311,6 @@ Page({
 
               that.data.user = res.userInfo;
               app.globalData.user=res.userInfo;
-              console.log(that.data.user)
             }
           })
         }

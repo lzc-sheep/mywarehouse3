@@ -69,7 +69,7 @@
         <view class='user-content-name'>{{item.user.nickName}}</view>
       </view>
     </view> 
-    <test> {{item.content}}</test>
+    <test class='content-text'> {{item.content}}</test>
     </block>
   </view>
   <!-- <view class='line'>文末</view> -->
