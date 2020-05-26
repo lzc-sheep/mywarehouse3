@@ -1,6 +1,7 @@
 {
   "cloud": true,
   "pages": [
+    "pages/login/login",
     "pages/home/home",
     "pages/me/me",
     "pages/publish/publish",
@@ -8,15 +9,15 @@
     "pages/history/history",
     "pages/collect/collect",
     "pages/advance/advance",
-    "pages/replay/replay",
-    "pages/login/login"
+    "pages/replay/replay"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "拼 拼",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "navigationStyle":"default"
   },
   "tabBar": {
     "selectedColor": "#d81e06",

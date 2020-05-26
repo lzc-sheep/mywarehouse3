@@ -1,11 +1,18 @@
 /* miniprogram/pages/login/login.wxss */
 .btn-login {
-  width: 165px;
+  width: 400rpx;
   height: 45px;
   line-height: 45px;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: rgb(2, 201, 85);
+  background-color: #29a6ff;
   color: #fff;
-  border-radius: 50px;
+  border-radius: 30px;
+  position:absolute;
+  left: 175rpx;
+  bottom: 30rpx;
+}
+
+page {
+  background: #ffffff;
 }

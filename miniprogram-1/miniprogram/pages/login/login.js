@@ -82,7 +82,7 @@ Page({
         //用户按了拒绝按钮
         wx.showModal({
             title:'警告',
-            content:'您点击了拒绝授权，将发布拼拼，请授权之后再进入!!!',
+            content:'您点击了拒绝授权，将无法发布拼拼，请授权之后再进入!!!',
             showCancel:false,
             confirmText:'返回授权',
             success:function(res){

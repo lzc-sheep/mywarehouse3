@@ -1,2 +1,5 @@
 <!--miniprogram/pages/login/login.wxml-->
-<button class=".btn-login" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">微信授权登录</button>
+<image src='../../images/login/pinpin.png' style="width:750rpx;height:1150rpx;"></image>
+<button class=".btn-login" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+<image src='../../images/login/wechat.png' style="width:21px;height:17px;"></image>
+微信授权体验</button>
