@@ -11,6 +11,7 @@ exports.main = async (event, context) => {
    var _openid=event._openid
    var _userimage= event.userimage
    var _nickname= event.nickname
+   console.log(event)
    try {
      if(event.type=="add"){
         return await db.collection('joinin').doc(_docid).update({

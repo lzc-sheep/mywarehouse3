@@ -2,9 +2,9 @@
   "cloud": true,
   "pages": [
     "pages/login/login",
+    "pages/publish/publish",
     "pages/home/home",
     "pages/me/me",
-    "pages/publish/publish",
     "pages/homeDetail/homeDetail",
     "pages/history/history",
     "pages/collect/collect",

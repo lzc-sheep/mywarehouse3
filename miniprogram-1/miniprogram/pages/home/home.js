@@ -17,12 +17,13 @@ Page({
     wx.cloud.init({
       env: app.globalData.evn
     })
-    getApp().LoadFontFace()
+    app.loadFontFace()
   },
 
   onShow: function() {
    // let that = this
     this.getData();
+
   },
   /**
    * 获取列表数据

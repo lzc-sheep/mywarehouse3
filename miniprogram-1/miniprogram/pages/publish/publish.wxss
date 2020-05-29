@@ -17,8 +17,8 @@
   height:60rpx;
   line-height: 70rpx;
   text-align: center;
-  font-size: 30rpx;
-  font-family: 'Bitstream Vera Serif Bold';
+  font-size: 35rpx;
+  font-family: 'content';
 }
 .text-content {
  /* background-color: #f3efef;*/
@@ -35,8 +35,8 @@
   height:60rpx;
   line-height: 70rpx;
   text-align: center;
-  font-size: 30rpx;
-  font-family: 'Bitstream Vera Serif Bold';
+  font-size: 35rpx;
+  font-family: 'content';
 }
 .text-area2 {
   width: 500rpx;
@@ -56,8 +56,8 @@
   height:300rpx;
   line-height: 70rpx;
   text-align: center;
-  font-size: 30rpx;
-  font-family: 'Bitstream Vera Serif Bold';
+  font-size: 35rpx;
+  font-family: 'content';
 }
 .text-area3 {
   width: 500rpx;
@@ -78,8 +78,8 @@
   height:60rpx;
   line-height: 70rpx;
   text-align: center;
-  font-size: 30rpx;
-  font-family: 'Bitstream Vera Serif Bold';
+  font-size: 35rpx;
+  font-family: 'content';
 }
 .text-area4 {
   width: 500rpx;
@@ -99,8 +99,8 @@
   height:60rpx;
   line-height: 70rpx;
   text-align: center;
-  font-size: 30rpx;
-  font-family: 'Bitstream Vera Serif Bold';
+  font-size: 35rpx;
+  font-family: 'content';
 }
 .text-area5 {
   width: 500rpx;
@@ -179,6 +179,7 @@
 
 .holder{
   font-size: 30rpx;
+  font-family: 'content';
 }
 .time{
   color:#000

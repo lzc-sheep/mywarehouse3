@@ -47,6 +47,13 @@ Page({
   },
 
   saveReplay: function() {
+    if(that.data.content.trim()==0){
+      wx.showToast({
+        icon: 'none',
+        title: '请填写回复内容',
+      })
+      console.log("回复信息为空")
+    }else{
     db.collection('replay').add({
       // data 字段表示需新增的 JSON 数据
       data: {
@@ -71,5 +78,5 @@ Page({
       fail: console.error
     })
   }
-
+  }
 })

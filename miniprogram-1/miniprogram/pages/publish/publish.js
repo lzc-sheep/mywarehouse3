@@ -101,8 +101,14 @@ Page({
    */
   chooseImage: function(event) {
     let that=this;
+    if(this.data.images.length>=3){
+      wx.showToast({
+        icon: 'none',
+        title: '图片最多上传3张哦',
+      })
+    }else{
     wx.chooseImage({
-      count: 6,
+      count: 1,
       success: function(res) {
         // 设置图片
         let localimages=that.data.localimages;
@@ -124,6 +130,7 @@ Page({
         }
       },
     })
+  }
   },
   /**
    * 图片路径格式化
@@ -142,19 +149,52 @@ Page({
       console.log('图片：', that.data.images)
       this.data.content = e.detail.value['input-content'];
       if (this.data.canIUse) {
-        var flag=(this.data.start.trim()==0)||(this.data.destination.trim()==0)||
-        (this.data.maxmember.trim()==0);
+        var flag=(this.data.start.length==0)||(this.data.destination.length==0)||
+        (this.data.maxmember.length==0);
         if (flag) {
           wx.showToast({
             icon: 'none',
             title: '还有信息未填写',
           })
-        }else if((this.data.content.trim()==0)&&(this.data.images.length==0)){
+        }else if((this.data.content.length==0)&&(this.data.images.length==0)){
           wx.showToast({
             icon: 'none',
             title: '写点东西吧',
           })
-          }else{
+          }else if(!that.jugdeTime()){
+            wx.showToast({
+              icon: 'none',
+              title: '时间太早啦',
+            })
+          }
+          /*else if(isNaN(parseInt(that.data.maxmember[2]))||parseInt(that.data.maxmember[2])<0){
+            wx.showToast({
+                icon: 'none',
+                title: '人数输入错误',
+              })
+            }
+          */
+         else if(!that.isNumber(that.data.maxmember)){
+          console.log("人数上限类型错误")
+          wx.showToast({
+            icon: 'none',
+            title: '人数只能为整数哦',
+          })
+         }else if(parseInt(that.data.maxmember)<2){
+          console.log("人数小于下限")
+          wx.showToast({
+            icon: 'none',
+            title: '人数不能小于2哦',
+          })
+         }else if(parseInt(that.data.maxmember)>6){
+          console.log("人数超过上限")
+          wx.showToast({
+            icon: 'none',
+            title: '人数不能大于6哦',
+          })
+         }
+          else{
+            console.log(that.data.maxmember.length)  
             this.saveDataToServer();
           }
         
@@ -335,5 +375,32 @@ Page({
    */
   onShareAppMessage: function() {
 
-  }
+  },
+  isNumber:function (val) {
+
+        var regPos = /^\d?$/; //非负浮点数
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        if(regPos.test(val) || regNeg.test(val)) {
+            return true;
+            } else {
+            return false;
+            }
+        },
+    jugdeTime: function(){
+          var flag=false
+          var newDate = new Date()
+          if(that.data.dateTimeArray1[0][that.data.dateTime1[0]]>newDate.getFullYear()){
+            flag=true
+          }else if(that.data.dateTimeArray1[1][that.data.dateTime1[1]]>(newDate.getMonth() + 1)){
+            flag=true
+          } else if(that.data.dateTimeArray1[2][that.data.dateTime1[2]]>newDate.getDate()){
+            flag=true
+          } else if(that.data.dateTimeArray1[3][that.data.dateTime1[3]]>newDate.getHours()){
+            flag=true
+          } else if (that.data.dateTimeArray1[4][that.data.dateTime1[4]]>newDate.getMinutes()){
+            flag=true
+          }
+          return flag
+        }
+  
 })

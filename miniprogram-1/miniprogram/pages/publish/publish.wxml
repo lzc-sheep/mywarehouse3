@@ -48,7 +48,7 @@
     </scroll-view>
     <view class='btn-func'>
       <button class="btn-img" bindtap='chooseImage'>选择图片</button>
-      <button class="btn" formType='submit'  >发布圈圈</button>
+      <button class="btn" formType='submit'  >发布拼拼</button>
       <!-- <image hidden=''></image> -->
     </view>
   </form>

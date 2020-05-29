@@ -38,14 +38,14 @@ Page({
       }
     })
 
-    // 获取收藏情况
+    // 获取加入情况
     wx.cloud.callFunction({
         name: 'login',
         success: res => {
           console.log('callFunction test result: ', res)
-          console.log('haha:', res.result.openid);
-          that.data.openid = res.result.openid;
-      // 获取收藏情况
+          console.log('haha:', res.result.OPENID);
+          that.data.openid = res.result.OPENID;
+      // 获取加入情况
         db.collection('collect')
         .where({
           publish_id: that.data.id,
@@ -194,7 +194,7 @@ Page({
       name: 'login',
       success: res => {
         console.log('callFunction test result: ', res)
-        that.data.openid = res.result.openid;
+        that.data.openid = res.result.OPENID;
         db.collection('topic').doc(that.data.id).get({
           success: function(res) {
             that.topic = res.data;

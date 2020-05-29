@@ -13,7 +13,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
   },
 
   /**
@@ -71,12 +70,13 @@ Page({
         //用户按了允许授权按钮
         var that = this;
         app.globalData.user=e.detail.userInfo;
+        
         console.log("用户信息")
         console.log(e.detail.userInfo)
         console.log("用户信息")
         //授权成功后，跳转进入小程序首页
         wx.switchTab({
-          url: '../publish/publish'
+          url: '../home/home'
         })
     } else {
         //用户按了拒绝按钮

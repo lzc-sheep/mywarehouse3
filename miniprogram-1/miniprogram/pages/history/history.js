@@ -41,9 +41,9 @@ Page({
         name: 'login',
         success: res => {
           console.log('callFunction test result: ', res)
-          console.log('haha:', res.result.openid);
+          console.log('haha:', res.result.OPENID);
           console.log(id);
-          id = res.result.openid;
+          id = res.result.OPENID;
           db.collection('topic')
             .where({
                _openid:id , // 填入当前用户 openid
