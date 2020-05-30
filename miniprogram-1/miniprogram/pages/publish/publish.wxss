@@ -4,15 +4,15 @@
   width: 100%;
 }
 
-.text-area {
+.text-area {        /*出发点输入框*/
   width: 500rpx;
   height:60rpx;
   padding: 25rpx 25rpx;
   background-color: #f3efef;
   margin-bottom: 10rpx;
   overflow: hidden;
-}
-.start{
+}  
+.start{         /*出发点文字提示*/
   width: 155rpx;
   height:60rpx;
   line-height: 70rpx;
@@ -30,7 +30,7 @@
    padding: 0 25rpx;
    display: flex;
  }
- .start2{
+ .start2{      /*终点输入框*/
   width: 155rpx;
   height:60rpx;
   line-height: 70rpx;
@@ -38,7 +38,7 @@
   font-size: 35rpx;
   font-family: 'content';
 }
-.text-area2 {
+.text-area2 {     /*终点文字提示*/
   width: 500rpx;
   height:60rpx;
   padding: 25rpx 25rpx;
@@ -46,12 +46,12 @@
   margin-bottom: 10rpx;
   overflow: hidden;
 }
-.text-content3 {
+.text-content3 {     
   /* background-color: #f3efef;*/
    padding: 0 25rpx;
    display: flex;
  }
- .start3{
+ .start3{      /*内容文字提示*/
   width: 155rpx;
   height:300rpx;
   line-height: 70rpx;
@@ -59,7 +59,7 @@
   font-size: 35rpx;
   font-family: 'content';
 }
-.text-area3 {
+.text-area3 {    /*内容输入框*/
   width: 500rpx;
   height:300rpx;
   padding: 25rpx 25rpx;
@@ -73,7 +73,7 @@
    padding: 0 25rpx;
    display: flex;
  }
- .start4{
+ .start4{      /*截止时间文字提示*/
   width: 155rpx;
   height:60rpx;
   line-height: 70rpx;
@@ -81,7 +81,7 @@
   font-size: 35rpx;
   font-family: 'content';
 }
-.text-area4 {
+.text-area4 {     /*截止时间选择框*/
   width: 500rpx;
   height:60rpx;
   padding: 25rpx 25rpx;
@@ -94,7 +94,7 @@
    padding: 0 25rpx;
    display: flex;
  }
- .start5{
+ .start5{      /*人数上限文字提示*/
   width: 155rpx;
   height:60rpx;
   line-height: 70rpx;
@@ -102,7 +102,7 @@
   font-size: 35rpx;
   font-family: 'content';
 }
-.text-area5 {
+.text-area5 {    /*人数上限输入*/
   width: 500rpx;
   height:60rpx;
   padding: 25rpx 25rpx;
@@ -152,7 +152,7 @@
  /* background-color: #000;*/
 }
 
-.btn-img {
+.btn-img {     /*选择图片*/
   width: 110px;
   height: 45px;
   line-height: 45px;
@@ -165,7 +165,7 @@
   /*margin-left:250px;*/
 }
 
-.btn {
+.btn {       /*发布拼拼*/
   width: 110px;
   height: 45px;
   line-height: 45px;

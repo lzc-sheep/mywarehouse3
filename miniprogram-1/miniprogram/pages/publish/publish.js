@@ -16,15 +16,15 @@ Page({
     maxmember:'',
 	  numbers:1,
     images: [],
-    localimages:[],
+    localimages:[],   //本地预览图片
     user: {},
-    isLike: false,
+    isLike: false,   //布尔型判断是否加入
     date: '2020-05-01',
     time: '12:00',
-    dateTimeArray1: null,
-    dateTime1: null,
-    nowTimeArray1:null,
-    nowTime1:null,
+    dateTimeArray1: null,   //截止时间
+    dateTime1: null,//截止时间
+    nowTimeArray1:null,    //当前时间
+    nowTime1:null,    //当前时间
     startYear: 2020,
     endYear: 2050,
     _id:''
@@ -49,7 +49,7 @@ Page({
       nowTimeArray1:obj1.dateTimeArray,
       nowTime1:obj1.dateTime
     });
-    getApp().loadFontFace()
+    getApp().loadFontFace()    //加载字体
   },
 
   /**
@@ -65,7 +65,7 @@ Page({
 
   changeDateTime1(e) {
     this.setData({ dateTime1: e.detail.value });
-  },
+  },  //读取截止时间改变
 
   changeDateTimeColumn1(e) {
     var arr = this.data.dateTime1, dateArr = this.data.dateTimeArray1;
@@ -77,7 +77,7 @@ Page({
       dateTimeArray1: dateArr,
       dateTime1: arr
     });
-  },
+  },   //读取截止时间改变
 
 
   getTextAreaContent: function(event) {
@@ -150,30 +150,24 @@ Page({
       this.data.content = e.detail.value['input-content'];
       if (this.data.canIUse) {
         var flag=(this.data.start.length==0)||(this.data.destination.length==0)||
-        (this.data.maxmember.length==0);
+        (this.data.maxmember.length==0);   //判断出发点终点，人数上限是否填写
         if (flag) {
           wx.showToast({
             icon: 'none',
             title: '还有信息未填写',
-          })
-        }else if((this.data.content.length==0)&&(this.data.images.length==0)){
+          })  
+        }else if((this.data.content.length==0)&&(this.data.images.length==0)){   //判断输入内容是否输入，图片是否选择
           wx.showToast({
             icon: 'none',
             title: '写点东西吧',
           })
-          }else if(!that.jugdeTime()){
+          }else if(!that.jugdeTime()){    //判断截止时间设置是否合理
             wx.showToast({
               icon: 'none',
               title: '时间太早啦',
             })
           }
-          /*else if(isNaN(parseInt(that.data.maxmember[2]))||parseInt(that.data.maxmember[2])<0){
-            wx.showToast({
-                icon: 'none',
-                title: '人数输入错误',
-              })
-            }
-          */
+         
          else if(!that.isNumber(that.data.maxmember)){
           console.log("人数上限类型错误")
           wx.showToast({
@@ -194,7 +188,7 @@ Page({
           })
          }
           else{
-            console.log(that.data.maxmember.length)  
+             
             this.saveDataToServer();
           }
         
@@ -206,7 +200,7 @@ Page({
         })
       }
     }else {
-      that.jugdeUserLogin2();
+      that.jugdeUserLogin2();  //判断用户是否授权
     }
   },
   /**
@@ -376,17 +370,17 @@ Page({
   onShareAppMessage: function() {
 
   },
-  isNumber:function (val) {
+  isNumber:function (val) {     //判断是否为整数
 
-        var regPos = /^\d?$/; //非负浮点数
-        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        var regPos = /^\d?$/; 
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; 
         if(regPos.test(val) || regNeg.test(val)) {
             return true;
             } else {
             return false;
             }
         },
-    jugdeTime: function(){
+    jugdeTime: function(){     //判断时间是否大于当前时间
           var flag=false
           var newDate = new Date()
           if(that.data.dateTimeArray1[0][that.data.dateTime1[0]]>newDate.getFullYear()){
@@ -401,6 +395,6 @@ Page({
             flag=true
           }
           return flag
-        }
+        }      
   
 })
