@@ -20,10 +20,11 @@ Page({
   onLoad: function(options) {
     that = this
     getApp().loadFontFace()
+	that.getData(that.data.page);
   },
 
   onShow: function() {
-    that.getData(that.data.page);
+
   },
   /**
    * 获取列表数据
