@@ -31,42 +31,46 @@ Page({
    */
   getData: function() {
     let that=this
-    let myDate = new Date();
-    let nowyear = myDate.getFullYear()-2020;
-    let nowmont = myDate.getMonth();
-    let nowdate = myDate.getDate()-1; 
-    let nowhour = myDate.getHours();
-    let nowminute = myDate.getMinutes();
+    let myDate = new Date();//获取当前日期
+    let nowyear = myDate.getFullYear()-2020;//获取年份,2020年为0
+    let nowmont = myDate.getMonth();//获取月份
+    let nowdate = myDate.getDate()-1; //获取日期，从0开始
+    let nowhour = myDate.getHours();//获取时
+    let nowminute = myDate.getMinutes();//获取分
     console.log(nowhour);
     console.log(nowminute);
     const db = wx.cloud.database();
 
     const _ = db.command
+	 /**
+   * 获取截至日期大于当前日期的数据
+   * 
+   */
     db.collection('topic').where(_.or([
       {
-        'deadline1.0':_.gt(nowyear)
+        'deadline1.0':_.gt(nowyear)//年份大于当前年份
       },
       {
-        'deadline1.0':nowyear,
-        'deadline1.1':_.gt(nowmont)
+        'deadline1.0':nowyear,//年份相等
+        'deadline1.1':_.gt(nowmont)//月份大于当前月份
       },
       {
         'deadline1.0':nowyear,
         'deadline1.1':nowmont,
-        'deadline1.2':_.gt(nowdate)
+        'deadline1.2':_.gt(nowdate)//日期大于当前日期
       },
       {
         'deadline1.0':nowyear,
         'deadline1.1':nowmont,
         'deadline1.2':nowdate,
-        'deadline1.3':_.gt(nowhour)
+        'deadline1.3':_.gt(nowhour)//小时大于当前小时
       },
       {
         'deadline1.0':nowyear,
         'deadline1.1':nowmont,
         'deadline1.2':nowdate,
         'deadline1.3':nowhour,
-        'deadline1.4':_.gt(nowminute)
+        'deadline1.4':_.gt(nowminute)//分钟大于当前分钟
       }
     ]))
       .orderBy('date', 'desc')
@@ -75,21 +79,21 @@ Page({
           // res.data 是包含以上定义的两条记录的数组
           console.log("数据：" + res.data)
           that.data.topics = res.data;
-          var topic=wx.getStorageSync('topics');
+          var topic=wx.getStorageSync('topics');//同步获取topics的内容
           topic=that.data.topics;
-          wx.setStorageSync('topics', topic)
+          wx.setStorageSync('topics', topic)//将topic存储在topics中，覆盖原来的topics内容
 
           that.setData({
             topics: that.data.topics,
           })
-          console.log(that.data.topics.length)
+          console.log(that.data.topics.length)//得到的结果条数
           var num=0;
           for(num=0;num<that.data.topics.length;++num)
           {
             console.log(that.data.topics[num])
           }
           wx.hideNavigationBarLoading(); //隐藏加载
-          wx.stopPullDownRefresh();
+          wx.stopPullDownRefresh();//停止当前页面下拉刷新
 
         },
         fail: function(event) {
@@ -103,13 +107,13 @@ Page({
    * item 点击
    */
   onItemClick: function(event) {
-    var id = event.currentTarget.dataset.topicid;
-    var openid = event.currentTarget.dataset.openid;
+    var id = event.currentTarget.dataset.topicid;//获取绑定事件的id
+    var openid = event.currentTarget.dataset.openid;//获取绑定事件的openid,即发布人的openid
     console.log(id);
     console.log(openid);
     wx.navigateTo({
       url: "../homeDetail/homeDetail?id=" + id + "&openid=" + openid
-    })
+    })//跳转到homedetail页面并传输id和openid
   },
 
 
@@ -144,7 +148,7 @@ Page({
             }
 
             var totalTopic = {};
-            totalTopic = that.data.topics.concat(temp);
+            totalTopic = that.data.topics.concat(temp);//将topic和temp拼接起来
 
             console.log(totalTopic);
             that.setData({
