@@ -42,12 +42,14 @@ Page({
     // 精确到分的处理，将数组的秒去掉
     var lastArray = obj1.dateTimeArray.pop();
     var lastTime = obj1.dateTime.pop();
+    var lastArray = obj.dateTimeArray.pop();
+    var lastTime = obj.dateTime.pop();
 
     this.setData({
       dateTimeArray1: obj1.dateTimeArray,
       dateTime1: obj1.dateTime,
-      nowTimeArray1:obj1.dateTimeArray,
-      nowTime1:obj1.dateTime
+      nowTimeArray1:obj.dateTimeArray,
+      nowTime1:obj.dateTime
     });
     getApp().loadFontFace()    //加载字体
   },
