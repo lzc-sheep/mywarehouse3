@@ -1,5 +1,7 @@
 var that
-const app = getApp()
+//获取全局对象,然后进行全局变量和全局方法的使用
+const app = getApp() 
+//调用云数据库
 const db = wx.cloud.database();
 Page({
 
@@ -65,7 +67,7 @@ Page({
         })
       }
     })
-
+     //获取加入人的信息
       db.collection('joinin')
       .where({
         join_id: that.data.id
@@ -212,14 +214,15 @@ Page({
             that.refreshLikeIcon(false)
 
           } else {
+            //发帖人不能重复参加情况
             if (that.data.openid== that.data.topic._openid) {
-              //发帖人不能重复参加情况
               wx.showToast({
                 title: '您是发布人哦！',
               })
             }
             else {
-              if (parseInt(that.data.topic.maxmember) <= that.data.topic.numbers) {  //满人的情况
+              //满人的情况
+              if (parseInt(that.data.topic.maxmember) <= that.data.topic.numbers) {  
                 wx.showToast({
                   title: '已经满人了哦！',
                 })
@@ -287,6 +290,7 @@ Page({
       },
     })*/
   },
+  //调用云函数实现原子加一
   addToTopic:function(enent){
     wx.cloud.callFunction({
       name:'runDB',
