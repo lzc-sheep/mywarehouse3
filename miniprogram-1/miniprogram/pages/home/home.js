@@ -123,10 +123,6 @@ Page({
   onPullDownRefresh: function() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     this.getData();
-    //var topics=wx.getStorageSync('topics')
-    //this.setData({
-    //  topics: topics
-   // })
   },
 
   /**

@@ -24,13 +24,26 @@ Page({
    */
   onLoad: function(options) {
 
-    that = this;
+    let that = this;
     that.data.id = options.id;
     that.data.openid = options.openid;
-    // 获取话题信息
     console.log(that.data.id);
     console.log(that.data.openid)
-    /*db.collection('collect').doc(that.data.id)*/
+    // 获取话题信息
+    that.pullFromdatabase1()
+    getApp().loadFontFace()
+  
+  },
+
+  onShow: function() {
+    // 获取回复列表
+    let that=this
+    that.pullFromdatabase2()
+    that.getReplay()
+  },
+
+  pullFromdatabase1:function(){
+    let that=this
     db.collection('topic').doc(that.data.id).get({
       success: function(res) {
         that.topic = res.data;
@@ -89,14 +102,11 @@ Page({
         },
         fail: console.error
       })
-      getApp().loadFontFace()
-  
+
   },
 
-  onShow: function() {
-    // 获取回复列表
+  pullFromdatabase2: function(){
     let that=this
-    that.getReplay()
     db.collection('topic').doc(that.data.id).get({
       success: function(res) {
         that.topic = res.data;
@@ -149,7 +159,8 @@ Page({
   },
 
   getReplay: function() {
-    // 获取回复列表
+    let that=this
+      // 获取回复列表
     db.collection('replay')
       .where({
         t_id: that.data.id
@@ -157,7 +168,6 @@ Page({
       .get({
         success: function(res) {
           // res.data 包含该记录的数据
-          console.log(res)
           that.setData({
             replays: res.data
           })
@@ -166,7 +176,7 @@ Page({
       })
   },
   /**
-   * 刷新点赞icon
+   * 刷新加入icon
    */
   refreshLikeIcon(isLike) {
     console.log('test');
@@ -188,7 +198,7 @@ Page({
     })
   },
   /**
-   * 喜欢点击
+   * 加入点击
    */
   onLikeClick: function(event) {
     let that=this
@@ -248,7 +258,7 @@ Page({
     
   },
   /**
-   * 添加到收藏集合中
+   * 添加到收藏（加入）集合中
    */
   saveToCollectServer: function(event) {console.log("?");
   console.log(that.data.openid);
@@ -278,17 +288,6 @@ Page({
       }
     })
 
-   /* db.collection('collect').add({
-      // data 字段表示需新增的 JSON 数据
-      data: {
-        _id: that.data.topic._openid,
-        date: new Date(),
-      },
-      success: function(res) {
-        that.refreshLikeIcon(true)
-        console.log(res)
-      },
-    })*/
   },
   //调用云函数实现原子加一
   addToTopic:function(enent){
@@ -309,7 +308,7 @@ Page({
     })
   
   },
-  addUserInfo: function(event){
+  addUserInfo: function(event){ //将加入的用户信息存入加入关系集合joinin中去
     wx.cloud.callFunction({
      name: 'join_person',
       data: {  
@@ -354,10 +353,6 @@ Page({
    * 从收藏集合中移除
    */
   removeFromCollectServer: function(event) {
-    /*db.collection('collect').doc(that.data.id).remove({
-
-      success: that.refreshLikeIcon(false),
-    });*///该函数没有足够的权限需要使用云函数
     wx.cloud.callFunction({
       name: 'runDB',
       data: {

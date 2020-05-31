@@ -1,5 +1,4 @@
 var dateTimePicker = require('../../util/dateTimePicker.js');
-var that
 const db = wx.cloud.database();
 const app= getApp()
 Page({
