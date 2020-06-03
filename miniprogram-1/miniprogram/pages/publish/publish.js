@@ -32,7 +32,7 @@ Page({
     * 生命周期函数--监听页面加载
     */
   onLoad: function (options) {
-    that = this
+    let that = this
     that.jugdeUserLogin2()
     console.log(app.globalData.openid)
     // 获取完整的年月日 时分秒，以及默认显示的数组
@@ -57,6 +57,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let that=this
     that.jugdeUserLogin()
   },
   /**
@@ -82,18 +83,23 @@ Page({
 
 
   getTextAreaContent: function(event) {
+    let that=this
     that.data.content = event.detail.value;
   },
   getStartposition: function(event) {
+    let that=this
     that.data.start = event.detail.value;
   },
   getDestination: function(event) {
+    let that=this
     that.data.destination =event.detail.value;
   },
   getDeadline: function(event){
+    let that=this
     that.data.deadline =event.detail.value
   },
   getMaxmember: function(event){
+    let that=this
     that.data.maxmember =event.detail.value
   },
 
@@ -102,7 +108,7 @@ Page({
    */
   chooseImage: function(event) {
     let that=this;
-    if(this.data.images.length>=3){
+    if(that.data.images.length>=3){
       wx.showToast({
         icon: 'none',
         title: '图片最多上传3张哦',
@@ -146,18 +152,19 @@ Page({
    * 发布
    */
   formSubmit: function(e) {
+    let that=this
     if('avatarUrl' in that.data.user){
       console.log('图片：', that.data.images)
-      this.data.content = e.detail.value['input-content'];
-      if (this.data.canIUse) {
-        var flag=(this.data.start.length==0)||(this.data.destination.length==0)||
-        (this.data.maxmember.length==0);   //判断出发点终点，人数上限是否填写
+      that.data.content = e.detail.value['input-content'];
+      if (that.data.canIUse) {
+        var flag=(that.data.start.length==0)||(that.data.destination.length==0)||
+        (that.data.maxmember.length==0);   //判断出发点终点，人数上限是否填写
         if (flag) {
           wx.showToast({
             icon: 'none',
             title: '还有信息未填写',
           })  
-        }else if((this.data.content.length==0)&&(this.data.images.length==0)){   //判断输入内容是否输入，图片是否选择
+        }else if((that.data.content.length==0)&&(that.data.images.length==0)){   //判断输入内容是否输入，图片是否选择
           wx.showToast({
             icon: 'none',
             title: '写点东西吧',
@@ -190,7 +197,7 @@ Page({
          }
           else{
              
-            this.saveDataToServer();
+            that.saveDataToServer();
           }
         
         
@@ -267,24 +274,26 @@ Page({
    * 删除图片
    */
   removeImg: function(event) {
+    let that=this
     var position = event.currentTarget.dataset.index;
     console.log('diandaol');
-    this.data.localimages.splice(position, 1);
+    that.data.localimages.splice(position, 1);
     // 渲染图片
-    this.setData({
-      localimages: this.data.localimages,
+    that.setData({
+      localimages: that.data.localimages,
     })
-    this.data.images.splice(position, 1);
+    that.data.images.splice(position, 1);
   },
   // 预览图片
   previewImg: function(e) {
+    let that=this
     //获取当前图片的下标
     var index = e.currentTarget.dataset.index;
     wx.previewImage({
       //当前显示图片
-      current: this.data.localimages[index],
+      current: that.data.localimages[index],
       //所有图片
-      urls: this.data.localimages
+      urls: that.data.localimages
     })
   },
 
@@ -292,6 +301,7 @@ Page({
    * 添加到发布集合中
    */
   saveToJoinin: function(event){
+    let that=this
     db.collection('joinin').add({
       // data 字段表示需新增的 JSON 数据
       data: {
@@ -309,6 +319,7 @@ Page({
     })
   },
   saveToHistoryServer: function(event) {
+    let that=this
     db.collection('history').add({
       // data 字段表示需新增的 JSON 数据
       data: {
@@ -336,6 +347,7 @@ Page({
    * 判断用户是否登录
    */
   jugdeUserLogin: function(event) {
+    let that=this
     // 查看是否授权
     wx.getSetting({
       success(res) {
@@ -383,6 +395,7 @@ Page({
         },
     jugdeTime: function(){     //判断时间是否大于当前时间
           var flag=false
+          let that=this
           var newDate = new Date()
           if(that.data.dateTimeArray1[0][that.data.dateTime1[0]]>newDate.getFullYear()){
             flag=true
